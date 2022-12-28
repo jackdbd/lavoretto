@@ -41,10 +41,10 @@ lavoretto \
 
 | Option | Default | Explanation |
 | --- | --- | --- |
-| `input` | `src/workflows` | Path to the workflow file/directory to build. |
-| `subworkflows` | `src/subworkflows` | Path to the subworkflow directory. |
-| `outdir` | `dist` | Directory where this tool will put the generated workflows. |
-| `header` | `true` | Whether to include a comment at the beginning of each generated workflow. Use `--no-header` if you don't want it. |
+| `input` | `src/workflows` | Workflow file/directory to build. |
+| `subworkflows` | `src/subworkflows` | Subworkflows directory. |
+| `outdir` | `dist` | Directory where to put the generated workflows. |
+| `header` | `true` | Whether to include a comment at the top of each generated workflow. Use `--no-header` if you don't want it. |
 | `footer` | `false` | Whether to include a comment at the bottom of each generated workflow. |
 
 See a few more examples in [scripts](./scripts/README.md).
@@ -57,5 +57,3 @@ This tool uses [debug](https://github.com/debug-js/debug) for its logs. You can 
 ## Useful links
 
 - [YAML Lint](https://www.yamllint.com/)
-
-npm run release:dry-run
