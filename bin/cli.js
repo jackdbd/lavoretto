@@ -1,39 +1,44 @@
 #!/usr/bin/env node
 import c from 'ansi-colors'
 import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 import { buildAll } from '../lib/build-all.js'
 
 const invoke = async () => {
-  const argv = yargs(process.argv.slice(2))
-    .usage(
-      'Retrieves subworkflows and copy-paste them in your workflow.\nUsage: $0 -i <input>'
-    )
+  const argv = yargs(hideBin(process.argv))
+    .usage('$0 -i <input> -s <subworkflows> -o <output> <options>')
     .option('input', {
       alias: 'i',
-      describe: 'path to the workflow file/directory to build',
-      demandOption: true
-    })
-    .option('outdir', {
-      alias: 'o',
-      describe: 'directory where this tool will put the generated workflows',
-      default: 'dist'
+      default: 'src/workflows',
+      demandOption: true,
+      describe: 'workflow file/directory to build',
+      type: 'string'
     })
     .option('subworkflows', {
       alias: 's',
-      describe:
-        'path to the directory where you keep your subworkflow YAML files',
-      default: 'assets/subworkflows'
+      default: 'src/subworkflows',
+      demandOption: true,
+      describe: 'subworkflows directory',
+      type: 'string'
+    })
+    .option('outdir', {
+      alias: 'o',
+      default: 'dist',
+      demandOption: true,
+      describe: 'directory where to put the generated workflows',
+      type: 'string'
     })
     .option('header', {
-      type: 'boolean',
+      default: true,
       describe:
-        'whether to include a comment at the beginning of the output file',
-      default: true
+        'whether to include a comment at the top of each generated workflow',
+      type: 'boolean'
     })
     .option('footer', {
-      type: 'boolean',
-      describe: 'whether to include a comment at the bottom of the output file',
-      default: false
+      default: false,
+      describe:
+        'whether to include a comment at the bottom of each generated workflow',
+      type: 'boolean'
     })
     .help('help').argv
 

@@ -1,13 +1,17 @@
 # lavoretto
 
 ![CI workflow](https://github.com/jackdbd/lavoretto/actions/workflows/ci.yaml/badge.svg)
-[![npm version](https://badge.fury.io/js/@jackdbd%2Flavoretto.svg)](https://badge.fury.io/js/@jackdbd%2Flavoretto)
-![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@jackdbd%2Flavoretto)
+[![npm version](https://badge.fury.io/js/lavoretto.svg)](https://badge.fury.io/js/lavoretto)
+![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/lavoretto)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-Reuse your subworkflows.
+Keep your subworkflows out of your workflows, so you can reuse them.
 
-*lavorétto* (Italian for "work of little importance or of little effort") is a tiny tool useful when working with Google Cloud Platform [Workflows](https://cloud.google.com/workflows).
+*lavorétto* (Italian for "work of little importance or of little effort") is a tiny tool useful when working with Google Cloud Platform [Workflows](https://cloud.google.com/workflows). Here is how it works:
+
+1. Write your workflows YAML files **without including any subworkflow** in them.
+2. Write your subworkflows in their own directory (e.g. `src/subworkflows`), each subworkflow in its own separate file.
+3. Tell lavoretto which workflow you want to build, and where to get the subworkflows.
 
 ## Installation
 
@@ -17,7 +21,7 @@ npm install --save-dev lavoretto
 
 ## Usage
 
-Generate a single workflow:
+Build a single workflow:
 
 ```sh
 lavoretto \
@@ -25,7 +29,7 @@ lavoretto \
   --subworkflows path/to/your/subworkflows-directory
 ```
 
-Generate all single workflows found in a (possibly nested) directory:
+Build all workflows found in a (possibly nested) directory:
 
 ```sh
 lavoretto \
@@ -37,7 +41,8 @@ lavoretto \
 
 | Option | Default | Explanation |
 | --- | --- | --- |
-| `input` | `undefined` | Path to the workflow file/directory to build. |
+| `input` | `src/workflows` | Path to the workflow file/directory to build. |
+| `subworkflows` | `src/subworkflows` | Path to the subworkflow directory. |
 | `outdir` | `dist` | Directory where this tool will put the generated workflows. |
 | `header` | `true` | Whether to include a comment at the beginning of each generated workflow. Use `--no-header` if you don't want it. |
 | `footer` | `false` | Whether to include a comment at the bottom of each generated workflow. |
