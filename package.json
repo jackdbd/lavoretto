@@ -1,6 +1,6 @@
 {
   "name": "lavoretto",
-  "version": "0.0.1",
+  "version": "1.0.0-canary.1",
   "description": "A tiny tool useful when working with Google Cloud Platform Workflows",
   "author": {
     "name": "Giacomo Debidda",
