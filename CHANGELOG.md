@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [1.0.0-canary.2](https://github.com/jackdbd/lavoretto/compare/v1.0.0-canary.1...v1.0.0-canary.2) (2022-12-28)
+
 ## 1.0.0-canary.1 (2022-12-28)
 
 
