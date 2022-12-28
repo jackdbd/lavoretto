@@ -1,0 +1,24 @@
+params: []
+steps:
+
+  - assign_dates_and_timestamps:
+      assign:
+        # https://cloud.google.com/workflows/docs/reference/stdlib/sys/now
+        - unix_timestamp_utc: ${sys.now()}
+        - formatted_timestamp: ${time.format(sys.now(), "UTC")}
+        - tmp_time_splits: ${text.split(formatted_timestamp, "T")}
+        - date_splits: ${text.split(tmp_time_splits[0], "-")}
+        - time_splits: ${text.split(tmp_time_splits[1], ".")}
+        - year: "${date_splits[0]}"
+        - month: "${date_splits[1]}"
+        - day: "${date_splits[2]}"
+        - date_string: ${year + "_" + month + "_" + day}
+        - time_string: ${text.replace_all(time_splits[0], ":", "_")}
+
+  - return_dates_and_timestamps:
+      return:
+        date_string: ${date_string}
+        time_string: ${time_string}
+        year: ${year}
+        month: ${month}
+        day: ${day}

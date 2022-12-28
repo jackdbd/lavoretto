@@ -1,0 +1,35 @@
+main:
+  steps:
+    - series_one:
+        steps:
+          - dates_and_timestamps_one:
+              call: get_dates_and_timestamps
+              result: dt_one
+          - step_a:
+              steps:
+                - step_a_inner:
+                    call: http.get
+                    args:
+                      url: https://host.com/api1
+                    result: api_response1
+                - dates_and_timestamps_two:
+                    call: get_dates_and_timestamps
+                    result: dt_two
+          - dates_and_timestamps_three:
+              call: get_dates_and_timestamps
+              result: dt_three
+          - step_b:
+              assign:
+                - varA: Monday
+                - varB: Tuesday
+    - series_two:
+        steps:
+          - step_c:
+              call: http.get
+              args:
+                url: https://host.com/api2
+              result: api_response2
+          - step_d:
+              assign:
+                - varC: Wednesday
+                - varD: Thursday

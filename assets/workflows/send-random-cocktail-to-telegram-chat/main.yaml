@@ -1,0 +1,87 @@
+main:
+  steps:
+
+  - dates_and_timestamps:
+      call: get_dates_and_timestamps
+      result: dt
+
+  - get_random_cocktail_from_thecocktaildb:
+      call: http.get
+      args:
+        url: https://www.thecocktaildb.com/api/json/v1/1/random.php
+      result: cocktail_result
+
+  - log_response:
+      call: sys.log
+      args:
+        data:
+          message: "Retrieved random cocktail from TheCocktailDB.com"
+          body: "${cocktail_result.body}"
+          headers: "${cocktail_result.headers}"
+        severity: "INFO"
+
+  - assign_telegram_text:
+      assign:
+        - drink: ${cocktail_result.body.drinks[0]}
+        - cocktail_alcoholic: ${drink.strAlcoholic}
+        - drink_category: ${drink.strCategory + " (" + drink.strAlcoholic + ")"}
+        - drink_glass: ${"🍸 " + drink.strGlass}
+        - telegram_text: >
+            ${
+            "<b>" + drink.strDrink + "</b>" + " " +
+            "\n\n" +
+            drink_category +
+            "\n" +
+            drink_glass +
+            "\n\n" +
+            "<b>Preparation</b> <i>" + drink.strInstructions + "</i>"
+            }
+
+  - telegram_chat_id_and_bot_token:
+      call: retrieve_telegram_chat_id_and_token
+      args:
+        secret_id: TELEGRAM
+        secret_version: latest
+      result: telegram
+
+  - log_stuff:
+      call: sys.log
+      args:
+        data:
+          message: "logging a bunch of stuff"
+          date_string: ${dt.date_string}
+          time_string: ${dt.time_string}
+          telegram_chat_id: ${telegram.chat_id}
+          cocktail_id: "${drink.idDrink}"
+          cocktail_name: "${drink.strDrink}"
+        severity: "INFO"
+
+  - send_cocktail_photo_to_telegram_chat:
+      call: http.post
+      args:
+        # https://core.telegram.org/bots/api#sendphoto
+        url: ${"https://api.telegram.org/bot" + telegram.token + "/sendPhoto"}
+        body:
+          chat_id: ${telegram.chat_id}
+          photo: ${drink.strDrinkThumb}
+          caption: >
+            ${
+            "🍸 <b>Random cocktail: " + drink.strDrink + "</b>" +
+            "\n\n" +
+            drink_category +
+            "\n" +
+            drink.strGlass + 
+            "\n\n" +
+            "<b>Preparation</b> <i>" + drink.strInstructions + "</i>" +
+            "\n\n" +
+            "<a href='https://www.thecocktaildb.com/drink/" + drink.idDrink + "'>Chek out " + drink.strDrink + " on TheCocktailDB</a>"
+            }
+          parse_mode: HTML
+          disable_notification: true
+      result: send_photo_res
+  
+  - return_value:
+      return:
+        cocktail_id: "${drink.idDrink}"
+        cocktail_name: "${drink.strDrink}"
+        telegram_message_id: "${send_photo_res.body.result.message_id}"

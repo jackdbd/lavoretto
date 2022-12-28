@@ -1,0 +1,43 @@
+main:
+  steps:
+
+  - dates_and_timestamps:
+      call: get_dates_and_timestamps
+      result: dt
+
+  - assign_telegram_text:
+      assign:
+        - telegram_text: "<b>Hello</b>"
+
+  - telegram_chat_id_and_bot_token:
+      call: retrieve_telegram_chat_id_and_token
+      args:
+        secret_id: TELEGRAM
+        secret_version: latest
+      result: telegram
+
+  - log_stuff:
+      call: sys.log
+      args:
+        data:
+          message: "logging a bunch of stuff"
+          date_string: ${dt.date_string}
+          time_string: ${dt.time_string}
+          telegram_chat_id: ${telegram.chat_id}
+        severity: "INFO"
+
+  - send_hello_to_telegram_chat:
+      call: http.post
+      args:
+        # https://core.telegram.org/bots/api#sendmessage
+        url: ${"https://api.telegram.org/bot" + telegram.token + "/sendMessage"}
+        body:
+          chat_id: ${telegram.chat_id}
+          text: ${telegram_text}
+          parse_mode: HTML
+          disable_notification: true
+      result: send_message_res
+  
+  - return_value:
+      return:
+        telegram_message_id: "${send_message_res.body.result.message_id}"
