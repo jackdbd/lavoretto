@@ -44,16 +44,18 @@
     "clean": "rm -rf coverage dist",
     "coverage-report": "python3 -m http.server --directory ./coverage/lcov-report 8090",
     "format": "prettier --config .prettier.cjs --write {bin,lib,test}/**/*.{cjs,js,mjs,ts}",
-    "help": "npx lavoretto --help",
+    "help": "lavoretto --help",
     "ncu:dev": "ncu --doctor --dep 'dev' --upgrade",
     "nuke": "rm -rf package-lock.json node_modules dist",
     "release:dry-run": "semantic-release --no-ci --dry-run",
+    "start": "lavoretto --header",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "ls lib/*.js | NODE_OPTIONS=--experimental-vm-modules entr -r jest"
   },
   "dependencies": {
     "ansi-colors": "^4.1.3",
     "debug": "^4.3.4",
+    "globby": "^13.1.3",
     "js-yaml": "^4.1.0",
     "yargs": "^17.6.2"
   },

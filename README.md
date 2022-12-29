@@ -41,9 +41,9 @@ lavoretto \
 
 | Option | Default | Explanation |
 | --- | --- | --- |
-| `input` | `src/workflows` | Workflow file/directory to build. |
-| `subworkflows` | `src/subworkflows` | Subworkflows directory. |
-| `outdir` | `dist` | Directory where to put the generated workflows. |
+| `workflows` | see help | Glob patterns for the workflows you want to build. |
+| `subworkflows` | see help | Glob patterns for your subworkflows. |
+| `outdir` | `dist/workflows` | Directory where to put the generated workflows. |
 | `header` | `true` | Whether to include a comment at the top of each generated workflow. Use `--no-header` if you don't want it. |
 | `footer` | `false` | Whether to include a comment at the bottom of each generated workflow. |
 
@@ -51,7 +51,11 @@ See a few more examples in [scripts](./scripts/README.md).
 
 ## Troubleshoot
 
-This tool uses [debug](https://github.com/debug-js/debug) for its logs. You can set the environment variable `DEBUG=lavoretto:*` to troubleshoot this tool.
+This tool uses [debug](https://github.com/debug-js/debug) for its logs. You can set the environment variable `DEBUG` to troubleshoot this tool. For example I often keep this line in my `.envrc`:
+
+```sh
+export DEBUG=lavoretto:*,-lavoretto:reducer
+````
 
 
 ## Useful links

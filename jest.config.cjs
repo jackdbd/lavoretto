@@ -6,7 +6,7 @@ const config = {
   coveragePathIgnorePatterns: ['<rootDir>/node_modules/'],
   coverageThreshold: {
     global: {
-      lines: 55
+      lines: 60
     }
   },
 
